@@ -6,7 +6,7 @@ import "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.
 import "@openzeppelin/contracts-upgradeable/utils/CountersUpgradeable.sol";
 
 /**
- * @author Digital Trust CSP
+ * @author Sumaira
  * @notice This smart contract is used to mint the solar system NFTs
  * @dev tokenId and uri for a particualr solar system nft item is unique
  * @dev any accounts can have multiple number of such nfts.
@@ -77,12 +77,9 @@ contract SolarSystemNftMinting is
      * @param tokenId_ tokenId of the solar system nft item
      * @return uri_ of the corresponding tokenId
      */
-    function uri(uint256 tokenId_)
-        public
-        view
-        override(ERC1155Upgradeable)
-        returns (string memory)
-    {
+    function uri(
+        uint256 tokenId_
+    ) public view override(ERC1155Upgradeable) returns (string memory) {
         _checkTokenId(tokenId_);
 
         return _tokenUris[tokenId_];
@@ -94,11 +91,9 @@ contract SolarSystemNftMinting is
      * @dev uris are set corresponding to the tokenId
      * @param uri_ uri string of the new solar system nft
      */
-    function setSolarSystemNftUri(string memory uri_)
-        public
-        onlyOwner
-        returns (uint256)
-    {
+    function setSolarSystemNftUri(
+        string memory uri_
+    ) public onlyOwner returns (uint256) {
         require(bytes(uri_).length > 0, "SolarSystemNft: Invalid uri");
         require(_tokenIds[uri_] == 0, "SolarSystemNft: Nft uri exist");
 
@@ -127,11 +122,9 @@ contract SolarSystemNftMinting is
      * @dev owner cannot be a nominee
      * @param account nominee address
      */
-    function addNominee(address account)
-        external
-        onlyOwner
-        realAddress(account)
-    {
+    function addNominee(
+        address account
+    ) external onlyOwner realAddress(account) {
         require(_owner != account, "SolarSystemNft: Owner cannot be a nominee");
         require(_nominee != account, "SolarSystemNft: Already a nominee");
 
@@ -176,11 +169,10 @@ contract SolarSystemNftMinting is
      * @param tokenId_ tokenId of the nft that has to be burnt
      * @param amount number of nfts to be burnt
      */
-    function burnNft(uint256 tokenId_, uint256 amount)
-        external
-        onlyOwner
-        nonReentrant
-    {
+    function burnNft(
+        uint256 tokenId_,
+        uint256 amount
+    ) external onlyOwner nonReentrant {
         _checkAmount(amount);
         _checkTokenId(tokenId_);
         require(
